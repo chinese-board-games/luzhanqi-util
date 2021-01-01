@@ -11,25 +11,24 @@ export const pieces = {
     lieutenant: { count: 3, order: 2 },
     major_general: { count: 2, order: 7 },
     major: { count: 2, order: 4 },
-  };
-  
-  /**
-   * Initializes and returns a piece object
-   * @param {String} name the name of the piece, should be a key in pieces object
-   * @param {Number} affiliation 0 for host, increments by 1 for additional players
-   * @returns {Object} new Piece object
-   */
-  const Piece = (name, affiliation) => {
+}
+
+/**
+ * Initializes and returns a piece object
+ * @param {String} name the name of the piece, should be a key in pieces object
+ * @param {Number} affiliation 0 for host, increments by 1 for additional players
+ * @returns {Object} new Piece object
+ */
+const Piece = (name, affiliation) => {
     if (!pieces[name]) {
-      throw Error("Invalid piece name provided");
+        throw Error('Invalid piece name provided')
     }
     return {
-      name,
-      affiliation,
-      order: pieces[name].order,
-      kills: 0,
-    };
-  };
-  
-  export default Piece;
-  
+        name,
+        affiliation,
+        order: pieces[name].order,
+        kills: 0,
+    }
+}
+
+export default Piece
