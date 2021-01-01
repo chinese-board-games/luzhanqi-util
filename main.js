@@ -5,15 +5,23 @@ import getSuccessors, {
     isValidDestination,
     placePiece,
     generateAdjList,
-    isCamp,
-  } from "./getSuccessors";
+} from './getSuccessors'
 
-export { getSuccessors, 
-    isValidX, 
-    isValidY, 
+import validateSetup from './validateSetup'
+
+import { isCamp, isHQ, iterBoard, mapBoard } from './core'
+
+export {
+    getSuccessors,
+    isValidX,
+    isValidY,
     isRailroad,
     isValidDestination,
     placePiece,
     generateAdjList,
+    validateSetup,
     isCamp,
-};
+    isHQ,
+    iterBoard,
+    mapBoard,
+}
