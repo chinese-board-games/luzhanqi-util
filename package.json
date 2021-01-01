@@ -1,0 +1,33 @@
+{
+  "name": "luzhanqi-util",
+  "version": "1.0.0",
+  "description": "Common utility functions shared between the front-end & back-end for luzhanqi.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chinese-board-games/luzhanqi-util.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chinese-board-games/luzhanqi-util/issues"
+  },
+  "homepage": "https://github.com/chinese-board-games/luzhanqi-util#readme",
+  "dependencies": {
+    "esm": "^3.2.25"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
+    ]
+  }
+}
