@@ -1,14 +1,13 @@
-const {
-    getSuccessors,
+import getSuccessors, {
     isValidX,
     isValidY,
     isRailroad,
     isValidDestination,
     placePiece,
     generateAdjList,
-} = require('./getSuccessors');
+} from './getSuccessors';
 
-const { Piece } = require('./piece');
+import { Piece } from './piece';
 
 // test x and y validation
 test('-1 should not be a valid x value', () =>

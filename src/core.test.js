@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-const { isCamp, isHQ } = require('./core');
+import { isCamp, isHQ } from './core';
 
 // test isCamp
 test('[1, 2] should be a camp', () => expect(isCamp(1, 2)).toBe(true));

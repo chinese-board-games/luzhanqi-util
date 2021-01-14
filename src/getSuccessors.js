@@ -9,7 +9,7 @@ const { isCamp } = require('./core');
  * @see isValidX
  */
 
-const isValidX = (x) => x >= 0 && x < 5;
+export const isValidX = (x) => x >= 0 && x < 5;
 
 /**
  * Checks validity of column index
@@ -18,7 +18,7 @@ const isValidX = (x) => x >= 0 && x < 5;
  * @see isValidY
  */
 
-const isValidY = (y) => y >= 0 && y < 12;
+export const isValidY = (y) => y >= 0 && y < 12;
 
 /**
  * Checks validity of coordinate pair as piece destination
@@ -30,7 +30,7 @@ const isValidY = (y) => y >= 0 && y < 12;
  * @see isValidDestination
  */
 
-const isValidDestination = (board, x, y, affiliation) =>
+export const isValidDestination = (board, x, y, affiliation) =>
     isValidX(x) && isValidY(y) && board[y][x].affiliation !== affiliation;
 
 /**
@@ -40,7 +40,7 @@ const isValidDestination = (board, x, y, affiliation) =>
  * @returns {boolean} whether the space is a railroad tile
  */
 
-const isRailroad = (x, y) => {
+export const isRailroad = (x, y) => {
     if (!isValidX(x) || !isValidY(y)) {
         return false;
     }
@@ -61,7 +61,7 @@ const isRailroad = (x, y) => {
  * @see getSuccessors
  */
 
-function getSuccessors(board, adjList, x, y, affiliation) {
+export default function getSuccessors(board, adjList, x, y, affiliation) {
     // validate the board
     if (board.length !== 12) {
         throw 'Invalid number of rows';
@@ -214,21 +214,11 @@ export const generateAdjList = () => {
  * @param {Number} y the row of the target coordinate pair
  * @param {*} piece a Piece object as defined in Piece.js
  */
-const placePiece = (board, x, y, piece) => {
+export const placePiece = (board, x, y, piece) => {
     if (!isValidX(x) || !isValidY(y)) {
         throw 'Invalid position passed';
     }
     return board.map((row, i) =>
         row.map((cell, j) => (i === x && j === y ? piece : cell))
     );
-};
-
-module.exports = {
-    isValidX,
-    isValidY,
-    isValidDestination,
-    isRailroad,
-    getSuccessors,
-    generateAdjList,
-    placePiece,
 };

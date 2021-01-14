@@ -1,4 +1,4 @@
-const pieces = {
+export const pieces = {
     bomb: { count: 2, order: -1 },
     brigadier_general: { count: 2, order: 6 },
     captain: { count: 3, order: 3 },
@@ -19,7 +19,7 @@ const pieces = {
  * @param {Number} affiliation 0 for host, increments by 1 for additional players
  * @returns {Object} new Piece object
  */
-const Piece = (name, affiliation) => {
+export const Piece = (name, affiliation) => {
     if (!pieces[name]) {
         throw Error('Invalid piece name provided');
     }
@@ -31,4 +31,4 @@ const Piece = (name, affiliation) => {
     };
 };
 
-module.exports = { pieces, Piece };
+export default { pieces, Piece };

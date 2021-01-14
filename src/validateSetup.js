@@ -1,7 +1,7 @@
 const { pieces } = require('./piece');
 const { isHQ, isCamp, iterBoard } = require('./core');
 
-module.exports = function validateSetup(halfBoard, isTopHalf = true) {
+export default function validateSetup(halfBoard, isTopHalf = true) {
     // flip the board of neccessary
     if (!isTopHalf) {
         halfBoard = [...halfBoard].reverse();
@@ -59,4 +59,4 @@ module.exports = function validateSetup(halfBoard, isTopHalf = true) {
             return false;
         }
     });
-};
+}
