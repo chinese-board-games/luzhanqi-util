@@ -61,7 +61,7 @@ export const isRailroad = (x, y) => {
  * @see getSuccessors
  */
 
-export default function getSuccessors(board, adjList, x, y, affiliation) {
+export function getSuccessors(board, adjList, x, y, affiliation) {
     // validate the board
     if (board.length !== 12) {
         throw 'Invalid number of rows';

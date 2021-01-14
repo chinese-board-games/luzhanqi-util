@@ -1,4 +1,5 @@
-import getSuccessors, {
+import {
+    getSuccessors,
     isValidX,
     isValidY,
     isRailroad,
