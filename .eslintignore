@@ -5,6 +5,7 @@ jspm_packages/
 # Ignore artifacts
 build
 coverage
+dist
 
 # index file
 index.js
