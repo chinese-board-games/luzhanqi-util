@@ -41,21 +41,21 @@ module.exports = function validateSetup(halfBoard, isTopHalf = true) {
 
     // validate the flag is in HQ
     iterBoard(halfBoard, (piece, x, y) => {
-        if (piece?.name == 'flag' && !isHQ(x, y)) {
+        if (piece && piece.name == 'flag' && !isHQ(x, y)) {
             return false;
         }
     });
 
     // validate landmine in the last two rows
     iterBoard(halfBoard, (piece, _, y) => {
-        if (piece?.name == 'landmine' && y > 1) {
+        if (piece && piece.name == 'landmine' && y > 1) {
             return false;
         }
     });
 
     // validate bomb is not in the first row
     iterBoard(halfBoard, (piece, _, y) => {
-        if (piece?.name == 'bomb' && y == 5) {
+        if (piece && piece.name == 'bomb' && y == 5) {
             return false;
         }
     });
