@@ -1,6 +1,7 @@
 {
     "env": {
         "browser": true,
+        "node": true,
         "es2021": true,
         "jest/globals": true
     },
@@ -10,5 +11,7 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
-    "rules": {}
+    "rules": {
+        "no-unused-vars": "warn"
+    }
 }
