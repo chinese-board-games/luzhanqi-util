@@ -1,2 +1,4 @@
-require = require('esm')(module)
-module.exports = require('./main.js')
+const core = require('./src/core');
+module.exports = {
+    ...core,
+};
