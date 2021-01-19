@@ -1,4 +1,4 @@
-const { isCamp } = require('./core');
+import { isCamp } from './core';
 /* eslint-disable no-plusplus */
 /* eslint-disable no-throw-literal */
 
