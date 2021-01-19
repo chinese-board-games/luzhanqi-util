@@ -13,7 +13,7 @@ export const isValidRow = (r) => r >= 0 && r < 12;
 
 /**
  * Checks validity of column index
- * @param {Number} c the column index of a coordinate pair
+ * @param {number} c the column index of a coordinate pair
  * @returns {boolean} whether the column index is within board bounds
  * @see isValidCol
  */
@@ -23,9 +23,9 @@ export const isValidCol = (c) => c >= 0 && c < 5;
 /**
  * Checks validity of coordinate pair as piece destination
  * @param {Object} board the Board object as defined in the backend Schema
- * @param {Number} r the row index of the target coordinate pair
- * @param {Number} c the column index of the target coordinate pair
- * @param {Number} affiliation 0 for host, increments by 1 for additional players
+ * @param {number} r the row index of the target coordinate pair
+ * @param {number} c the column index of the target coordinate pair
+ * @param {number} affiliation 0 for host, increments by 1 for additional players
  * @returns {boolean} whether the target destination is valid
  * @see isValidDestination
  */
@@ -35,8 +35,8 @@ export const isValidDestination = (board, r, c, affiliation) =>
 
 /**
  * Checks whether the space is a railroad tile
- * @param {Number} r the row of the target coordinate pair
- * @param {Number} c the column of the target coordinate pair
+ * @param {number} r the row of the target coordinate pair
+ * @param {number} c the column of the target coordinate pair
  * @returns {boolean} whether the space is a railroad tile
  */
 
@@ -53,10 +53,10 @@ export const isRailroad = (r, c) => {
 /**
  * Gets a list of possible positions the piece at a given coordinate pair can travel to
  * @param {Object} board the Board object as defined in the backend Schema
- * @param {Number} r the row of the source coordinate pair
- * @param {Number} c the column of the source coordinate pair
+ * @param {number} r the row of the source coordinate pair
+ * @param {number} c the column of the source coordinate pair
  * @param {Array} adjList a list of lists representing the graph of duplex tile connections
- * @param {Number} affiliation 0 for host, increments by 1 for additional players
+ * @param {number} affiliation 0 for host, increments by 1 for additional players
  * @returns {Array} list of positions that the piece may travel to during its turn
  * @see getSuccessors
  */
@@ -146,12 +146,12 @@ export function getSuccessors(board, adjList, r, c, affiliation) {
 }
 
 /**
- * Generates the adjacency graph for a two player Luzhanqi game
- * @returns {Array<Array>} list of lists indicating duplex tile connections
+ * Generates the adjacency list for a two player Luzhanqi game in the form of a javascript map
+ * @returns {Map<String, String>} list of lists indicating duplex tile connections
  * @see generateAdjList
  */
-// note that the coordinates are stored in a JSON format
 export const generateAdjList = () => {
+    // note that the coordinates are stored in a JSON format
     const adjList = new Map();
     for (let originR = 0; originR < 12; originR++) {
         for (let originC = 0; originC < 5; originC++) {
@@ -209,8 +209,8 @@ export const generateAdjList = () => {
 /**
  *
  * @param {Object} board the Board object as defined in the backend Schema
- * @param {Number} r the row of the target coordinate pair
- * @param {Number} c the column of the target coordinate pair
+ * @param {number} r the row of the target coordinate pair
+ * @param {number} c the column of the target coordinate pair
  * @param {*} piece a Piece object as defined in Piece.js
  */
 export const placePiece = (board, r, c, piece) => {

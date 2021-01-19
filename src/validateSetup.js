@@ -1,6 +1,11 @@
 const { pieces } = require('./piece');
 const { isHQ, isCamp, iterBoard } = require('./core');
 
+/**
+ *
+ * @param {Piece[][]} halfBoard
+ * @param {boolean} isBottomHalf
+ */
 export function validateSetup(halfBoard, isBottomHalf = true) {
     // flip the board of neccessary
     if (!isBottomHalf) {

@@ -15,8 +15,8 @@ export const pieces = {
 
 /**
  * Initializes and returns a piece object
- * @param {String} name the name of the piece, should be a key in pieces object
- * @param {Number} affiliation 0 for host, increments by 1 for additional players
+ * @param {string} name the name of the piece, should be a key in pieces object
+ * @param {number} affiliation 0 for host, increments by 1 for additional players
  * @returns {Object} new Piece object
  */
 export const Piece = (name, affiliation) => {
