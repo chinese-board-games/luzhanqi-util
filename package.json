@@ -1,6 +1,6 @@
 {
     "name": "@chinese-board-games/luzhanqi-util",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "description": "Common utility functions shared between the front-end & back-end for luzhanqi.",
     "publishConfig": {
         "access": "public"
