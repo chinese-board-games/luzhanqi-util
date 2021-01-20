@@ -1,7 +1,7 @@
 import {
     getSuccessors,
-    isValidX,
-    isValidY,
+    isValidRow,
+    isValidCol,
     isRailroad,
     isValidDestination,
     placePiece,
@@ -10,59 +10,62 @@ import {
 
 import { Piece } from './piece';
 
-// test x and y validation
-test('-1 should not be a valid x value', () =>
-    expect(isValidX(-1)).toBe(false));
-test('0 should be a valid x value', () => expect(isValidX(0)).toBe(true));
-test('4 should be a valid x value', () => expect(isValidX(4)).toBe(true));
-test('5 should not be a valid x value', () => expect(isValidX(5)).toBe(false));
+// test row and column validation
+test('-1 should not be a valid row index', () =>
+    expect(isValidRow(-1)).toBe(false));
+test('0 should be a valid row index', () => expect(isValidRow(0)).toBe(true));
+test('5 should be a valid row index', () => expect(isValidRow(5)).toBe(true));
+test('11 should be a valid row index', () => expect(isValidRow(11)).toBe(true));
+test('12 should not be a valid row index', () =>
+    expect(isValidRow(12)).toBe(false));
 
-test('-1 should not be a valid y value', () =>
-    expect(isValidY(-1)).toBe(false));
-test('0 should be a valid y value', () => expect(isValidY(0)).toBe(true));
-test('5 should be a valid y value', () => expect(isValidY(5)).toBe(true));
-test('11 should be a valid y value', () => expect(isValidY(11)).toBe(true));
-test('12 should not be a valid y value', () =>
-    expect(isValidY(12)).toBe(false));
+test('-1 should not be a valid column index', () =>
+    expect(isValidCol(-1)).toBe(false));
+test('0 should be a valid column index', () =>
+    expect(isValidCol(0)).toBe(true));
+test('4 should be a valid column index', () =>
+    expect(isValidCol(4)).toBe(true));
+test('5 should be a valid column index', () =>
+    expect(isValidCol(5)).toBe(false));
 
 // test isRailroad
-const generateRow = (y) => [...Array(4).keys()].map((x) => [x, y]);
+const generateRow = (r) => [...Array(4).keys()].map((c) => [r, c]);
 
 const topRailCoords = generateRow(1);
-test('[0, 1] to [4, 1] should be valid railroad coordinates', () =>
+test('[1, 0] to [1, 4] should be valid railroad coordinates', () =>
     expect(
-        topRailCoords.map(([x, y]) => isRailroad(x, y)).every((v) => v)
+        topRailCoords.map(([r, c]) => isRailroad(r, c)).every((v) => v)
     ).toBe(true));
 
 const topMidRailCoords = generateRow(5);
-test('[0, 5] to [4, 5] should be valid railroad coordinates', () =>
+test('[5, 0] to [5, 4] should be valid railroad coordinates', () =>
     expect(
-        topMidRailCoords.map(([x, y]) => isRailroad(x, y)).every((v) => v)
+        topMidRailCoords.map(([r, c]) => isRailroad(r, c)).every((v) => v)
     ).toBe(true));
 
 const botMidRailCoords = generateRow(6);
-test('[0, 6] to [4, 6] should be valid railroad coordinates', () =>
+test('[6, 0] to [6, 4] should be valid railroad coordinates', () =>
     expect(
-        botMidRailCoords.map(([x, y]) => isRailroad(x, y)).every((v) => v)
+        botMidRailCoords.map(([r, c]) => isRailroad(r, c)).every((v) => v)
     ).toBe(true));
 
 const botRailCoords = generateRow(10);
-test('[0, 10] to [4, 10] should be valid railroad coordinates', () =>
+test('[10, 0] to [10, 4] should be valid railroad coordinates', () =>
     expect(
-        botRailCoords.map(([x, y]) => isRailroad(x, y)).every((v) => v)
+        botRailCoords.map(([r, c]) => isRailroad(r, c)).every((v) => v)
     ).toBe(true));
 
-const generateCol = (x) => [...Array(12).keys()].map((y) => [x, y]);
+const generateCol = (c) => [...Array(12).keys()].map((r) => [r, c]);
 
 const leftCol = generateCol(0).slice(1, -1);
 test('[0, 1] to [0, 11] should be valid railroad coordinates', () =>
-    expect(leftCol.map(([x, y]) => isRailroad(x, y)).every((v) => v)).toBe(
+    expect(leftCol.map(([r, c]) => isRailroad(r, c)).every((v) => v)).toBe(
         true
     ));
 
 const rightCol = generateCol(4).slice(1, -1);
 test('[4, 1] to [4, 11] should be valid railroad coordinates', () =>
-    expect(rightCol.map(([x, y]) => isRailroad(x, y)).every((v) => v)).toBe(
+    expect(rightCol.map(([r, c]) => isRailroad(r, c)).every((v) => v)).toBe(
         true
     ));
 

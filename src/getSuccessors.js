@@ -1,67 +1,95 @@
-const { isCamp } = require('./core');
-/* eslint-disable no-plusplus */
-/* eslint-disable no-throw-literal */
+import { isCamp } from './core';
 
 /**
  * Checks validity of row index
- * @param {Number} x the x value (column) of a coordinate pair
- * @returns {boolean} whether the column index is within board bounds
- * @see isValidX
+ *
+ * @function
+ * @param {Number} r The row index of a coordinate pair.
+ * @see isValidRow
+ * @returns {boolean} Whether the row index is within board bounds.
  */
 
-export const isValidX = (x) => x >= 0 && x < 5;
+export const isValidRow = (r) => r >= 0 && r < 12;
 
 /**
  * Checks validity of column index
- * @param {Number} y the y value (row) of a coordinate pair
- * @returns {boolean} whether the row index is within board bounds
- * @see isValidY
+ *
+ * @function
+ * @param {number} c The column index of a coordinate pair.
+ * @see isValidCol
+ * @returns {boolean} Whether the column index is within board bounds.
  */
 
-export const isValidY = (y) => y >= 0 && y < 12;
+export const isValidCol = (c) => c >= 0 && c < 5;
+
+/**
+ * The complete type of a game piece.
+ *
+ * @typedef {Object} Piece
+ * @property {string} name
+ * @property {number} affiliation
+ * @property {number} order
+ * @property {number} kills
+ */
+
+/**
+ * The complete type of the game board. A 12 by 5 two dimensional array of Piece objects.
+ *
+ * @typedef {Piece[][]} Board
+ */
 
 /**
  * Checks validity of coordinate pair as piece destination
- * @param {Object} board the Board object as defined in the backend Schema
- * @param {Number} x the column of the target coordinate pair
- * @param {Number} y the row of the target coordinate pair
- * @param {Number} affiliation 0 for host, increments by 1 for additional players
- * @returns {boolean} whether the target destination is valid
+ *
+ * @function
+ * @param {Board} board The Board object as defined in the backend Schema.
+ * @param {number} r The row index of the target coordinate pair.
+ * @param {number} c The column index of the target coordinate pair.
+ * @param {number} affiliation 0 for host, increments by 1 for additional players.
  * @see isValidDestination
+ * @returns {boolean} Whether the target destination is valid.
  */
-
-export const isValidDestination = (board, x, y, affiliation) =>
-    isValidX(x) && isValidY(y) && board[y][x].affiliation !== affiliation;
+export const isValidDestination = (board, r, c, affiliation) =>
+    isValidRow(r) && isValidCol(c) && board[r][c].affiliation !== affiliation;
 
 /**
- * Checks whether the space is a railroad tile
- * @param {Number} x the column of the target coordinate pair
- * @param {Number} y the row of the target coordinate pair
- * @returns {boolean} whether the space is a railroad tile
+ * Checks whether the space is a railroad tile.
+ *
+ * @function
+ * @param {number} r The row of the target coordinate pair.
+ * @param {number} c The column of the target coordinate pair.
+ * @returns {boolean} Whether the space is a railroad tile.
  */
 
-export const isRailroad = (x, y) => {
-    if (!isValidX(x) || !isValidY(y)) {
+export const isRailroad = (r, c) => {
+    if (!isValidRow(r) || !isValidCol(c)) {
         return false;
     }
-    if (x === 0 || x === 4) {
-        return y > 0 && y < 12;
+    if (c === 0 || c === 4) {
+        return r > 0 && r < 12;
     }
-    return y === 1 || y === 5 || y === 6 || y === 10;
+    return r === 1 || r === 5 || r === 6 || r === 10;
 };
 
 /**
- * Gets a list of possible positions the piece at a given coordinate pair can travel to
- * @param {Object} board the Board object as defined in the backend Schema
- * @param {Number} x the column of the source coordinate pair
- * @param {Number} y the row of the source coordinate pair
- * @param {Array} adjList a list of lists representing the graph of duplex tile connections
- * @param {Number} affiliation 0 for host, increments by 1 for additional players
- * @returns {Array} list of positions that the piece may travel to during its turn
- * @see getSuccessors
+ * The type of an adjacency list.
+ *
+ * @typedef {Map<string, string[]>} Adjlist
  */
 
-export function getSuccessors(board, adjList, x, y, affiliation) {
+/**
+ * Gets a list of possible positions the piece at a given coordinate pair can travel to.
+ *
+ * @param {Board} board The Board object as defined in the backend Schema.
+ * @param {number} r The row of the source coordinate pair.
+ * @param {number} c The column of the source coordinate pair.
+ * @param {Adjlist} adjList A Map object representing the graph of duplex tile
+ *   connections.
+ * @param {number} affiliation 0 for host, increments by 1 for additional players.
+ * @see getSuccessors
+ * @returns {Array} List of positions that the piece may travel to during its turn.
+ */
+export function getSuccessors(board, adjList, r, c, affiliation) {
     // validate the board
     if (board.length !== 12) {
         throw 'Invalid number of rows';
@@ -72,15 +100,15 @@ export function getSuccessors(board, adjList, x, y, affiliation) {
     }
 
     // validate from
-    if (!isValidX(x)) {
+    if (!isValidRow(r)) {
         throw 'Invalid x';
     }
 
-    if (!isValidY(y)) {
+    if (!isValidCol(c)) {
         throw 'Invalid y';
     }
 
-    const piece = board[y][x];
+    const piece = board[r][c];
 
     // get the piece type
     if (piece == null || piece === 'landmine' || piece === 'flag') {
@@ -89,9 +117,9 @@ export function getSuccessors(board, adjList, x, y, affiliation) {
 
     const railroadMoves = new Set();
     if (piece === 'engineer') {
-        if (isRailroad(x, y)) {
+        if (isRailroad(r, c)) {
             // perform dfs to find availible moves
-            const stack = [[x, y]];
+            const stack = [[r, c]];
             const visited = new Set();
             const directions = [
                 [-1, 0],
@@ -101,18 +129,17 @@ export function getSuccessors(board, adjList, x, y, affiliation) {
             ];
 
             while (stack) {
-                let [curX, curY] = null;
-                [curX, curY] = stack.pop();
+                let [curRow, curCol] = stack.pop();
 
-                visited.add([curX, curY]);
+                visited.add([curRow, curCol]);
 
-                if (isValidDestination(board, curX, curY, affiliation)) {
+                if (isValidDestination(board, curRow, curCol, affiliation)) {
                     // don't add the first location
-                    if (!(curX === x && curY === y)) {
-                        railroadMoves.add(JSON.stringify([curX, curY]));
+                    if (!(curRow === r && curCol === c)) {
+                        railroadMoves.add(JSON.stringify([curRow, curCol]));
                     }
-                    directions.forEach((incX, incY) => {
-                        const neighbor = [curX + incX, curY, incY];
+                    directions.forEach((incRow, incCol) => {
+                        const neighbor = [curRow + incRow, curCol, incCol];
                         if (!visited.has(neighbor)) {
                             stack.push(neighbor);
                         }
@@ -120,7 +147,7 @@ export function getSuccessors(board, adjList, x, y, affiliation) {
                 }
             }
         }
-    } else if (isRailroad(x, y)) {
+    } else if (isRailroad(r, c)) {
         const directions = [
             [-1, 0],
             [0, -1],
@@ -128,36 +155,41 @@ export function getSuccessors(board, adjList, x, y, affiliation) {
             [0, 1],
         ];
         directions.forEach((direction) => {
-            const [incX, incY] = direction;
+            const [incRow, incCol] = direction;
 
-            let curX = x + incX;
-            let curY = y + incY;
-            while (isValidDestination(board, curX, curY, affiliation)) {
-                railroadMoves.add(JSON.stringify([curX, curY]));
-                curX += incX;
-                curY += incY;
+            let curRow = r + incRow;
+            let curCol = c + incCol;
+            while (isValidDestination(board, curRow, curCol, affiliation)) {
+                railroadMoves.add(JSON.stringify([curRow, curCol]));
+                curRow += incRow;
+                curCol += incCol;
             }
         });
     }
     const jsonMoves = new Set([
         ...railroadMoves,
-        ...adjList.get(JSON.stringify([x, y])),
+        ...adjList.get(JSON.stringify([r, c])),
     ]);
     return [...jsonMoves].map((m) => JSON.parse(m));
 }
 
 /**
- * Generates the adjacency graph for a two player Luzhanqi game
- * @returns {Array<Array>} list of lists indicating duplex tile connections
+ * Generates the adjacency list for a two player Luzhanqi game in the form of a
+ * Map object. The generated Map uses the JSON.stringified versions of
+ * coordinate arrays because of the way javascript handles the comparison of arrays.
+ *
+ * @function
  * @see generateAdjList
+ * @returns {Map<string, string[]>} Keys are JSON.stringified coordinate array
+ *   keys and values are arrays of JSON.stringified coordinates.
  */
-// note that the coordinates are stored in a JSON format
 export const generateAdjList = () => {
+    // note that the coordinates are stored in a JSON format
     const adjList = new Map();
-    for (let originY = 0; originY < 12; originY++) {
-        for (let originX = 0; originX < 5; originX++) {
+    for (let originR = 0; originR < 12; originR++) {
+        for (let originC = 0; originC < 5; originC++) {
             const connections =
-                adjList.get(JSON.stringify([originX, originY])) || new Set();
+                adjList.get(JSON.stringify([originR, originC])) || new Set();
 
             // add up/down and left/right connections
             const directions = [
@@ -167,7 +199,7 @@ export const generateAdjList = () => {
                 [0, 1],
             ];
 
-            if (isCamp(originX, originY)) {
+            if (isCamp(originR, originC)) {
                 // add diagonal connections
                 directions.push(
                     ...[
@@ -179,27 +211,27 @@ export const generateAdjList = () => {
                 );
             }
 
-            directions.forEach(([incX, incY]) => {
-                const destX = originX + incX;
-                const destY = originY + incY;
-                if (isValidX(destX) && isValidY(destY)) {
-                    connections.add(JSON.stringify([destX, destY]));
+            directions.forEach(([incR, incC]) => {
+                const destR = originR + incR;
+                const destC = originC + incC;
+                if (isValidRow(destR) && isValidCol(destC)) {
+                    connections.add(JSON.stringify([destR, destC]));
                     // set reverse direction if center piece
-                    if (isCamp(originX, originY)) {
-                        if (!adjList.has(JSON.stringify([destX, destY]))) {
+                    if (isCamp(originR, originC)) {
+                        if (!adjList.has(JSON.stringify([destR, destC]))) {
                             adjList.set(
-                                JSON.stringify([destX, destY]),
+                                JSON.stringify([destR, destC]),
                                 new Set()
                             );
                         }
                         adjList
-                            .get(JSON.stringify([destX, destY]))
-                            .add(JSON.stringify([originX, originY]));
+                            .get(JSON.stringify([destR, destC]))
+                            .add(JSON.stringify([originR, originC]));
                     }
                 }
             });
 
-            adjList.set(JSON.stringify([originX, originY]), connections);
+            adjList.set(JSON.stringify([originR, originC]), connections);
         }
     }
 
@@ -208,17 +240,21 @@ export const generateAdjList = () => {
 };
 
 /**
+ * Returns a new board with the placed piece.
  *
- * @param {Object} board the Board object as defined in the backend Schema
- * @param {Number} x the column of the target coordinate pair
- * @param {Number} y the row of the target coordinate pair
- * @param {*} piece a Piece object as defined in Piece.js
+ * @function
+ * @param {Board} board The Board object as defined in the backend Schema.
+ * @param {number} r The row of the target coordinate pair.
+ * @param {number} c The column of the target coordinate pair.
+ * @param {any} piece A Piece object as defined in Piece.js.
+ * @see placePiece
+ * @returns {Board} A new board with the placed piece.
  */
-export const placePiece = (board, x, y, piece) => {
-    if (!isValidX(x) || !isValidY(y)) {
+export const placePiece = (board, r, c, piece) => {
+    if (!isValidRow(r) || !isValidCol(c)) {
         throw 'Invalid position passed';
     }
     return board.map((row, i) =>
-        row.map((cell, j) => (i === x && j === y ? piece : cell))
+        row.map((cell, j) => (i === r && j === c ? piece : cell))
     );
 };

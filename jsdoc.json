@@ -1,0 +1,13 @@
+{
+    "source": {
+        "include": "./src",
+        "exclide": [],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "front_page": "README.md",
+    "recurse": true,
+    "opts": {
+        "template": "node_modules/better-docs"
+    }
+}
