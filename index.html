@@ -101,8 +101,58 @@
 
     <section>
         <article><h1>luzhanqi-util</h1>
-<p>Utility functions for the Luzhanqi project.
-Full-stack validation will live here.</p></article>
+<p>Common utility functions for the Luzhanqi project.</p>
+<h2>Installation</h2>
+<pre class="prettyprint source lang-bash"><code>npm i @chinese-board-games/luzhanqi-util
+</code></pre>
+<h2>Usage</h2>
+<h3>ES6 import</h3>
+<pre class="prettyprint source lang-js"><code>import * as luzhanqiUtil from '@chinese-board-games/luzhanqi-util';
+// ...
+luzhanqiUtil.isValidRow(0);
+</code></pre>
+<h3>CommonJS require</h3>
+<pre class="prettyprint source lang-js"><code>const luzhanqiUtil = require('@chinese-board-games/luzhanqi-util');
+// ...
+luzhanqiUtil.isValidRow(0);
+</code></pre>
+<h3>AMD require</h3>
+<pre class="prettyprint source lang-js"><code>require(['luzhanqiUtil'], function (luzhanqiUtil) {
+  // ...
+  luzhanqiUtil.isValidRow(0);
+});
+</code></pre>
+<h3>Script tag</h3>
+<pre class="prettyprint source lang-html"><code>&lt;!doctype html>
+&lt;html>
+  ...
+  &lt;script src=&quot;https://unpkg.com/@chinese-board-games/luzhanqi-util&quot;>&lt;/script>
+  &lt;script>
+    // ...
+    // Global variable
+    luzhanqiUtil.isValidRow(0);
+    // Property in the window object
+    window.luzhanqiUtil.isValidRow(0);
+    // ...
+  &lt;/script>
+&lt;/html>
+</code></pre>
+<h2>Examples</h2>
+<p>Coming soon!</p>
+<h2>API</h2>
+<p>The JSDocs for this project are hosted <a href="https://chinese-board-games.github.io/luzhanqi-util/">here</a>.</p>
+<h2>Local Build</h2>
+<ol>
+<li>Make sure you have Node v10 or greater installed on your system</li>
+<li>Clone the repository: <code>git clone https://github.com/chinese-board-games/luzhanqi-util.git</code></li>
+<li>Install the dependencies: <code>npm install</code></li>
+<li>Run the tests: <code>npm test</code></li>
+</ol>
+<h2>Contributing</h2>
+<p>Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.</p>
+<p>Please make sure to update tests as appropriate.</p>
+<h2>License</h2>
+<p><a href="https://choosealicense.com/licenses/mit/">MIT</a></p></article>
     </section>
 
 
