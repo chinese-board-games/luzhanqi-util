@@ -1,3 +1,4 @@
+/** An object containing basic game information for each piece type. */
 export const pieces = {
     bomb: { count: 2, order: -1 },
     brigadier_general: { count: 2, order: 6 },
@@ -14,10 +15,22 @@ export const pieces = {
 };
 
 /**
- * Initializes and returns a piece object
- * @param {string} name the name of the piece, should be a key in pieces object
- * @param {number} affiliation 0 for host, increments by 1 for additional players
- * @returns {Object} new Piece object
+ * The complete type of a game piece.
+ *
+ * @typedef {Object} Piece
+ * @property {string} name
+ * @property {number} affiliation
+ * @property {number} order
+ * @property {number} kills
+ */
+
+/**
+ * Initializes and returns a new piece object.
+ *
+ * @function
+ * @param {string} name The name of the piece, should be a key in pieces object.
+ * @param {number} affiliation 0 for host, increments by 1 for additional players.
+ * @returns {Piece} A new Piece object.
  */
 export const Piece = (name, affiliation) => {
     if (!pieces[name]) {

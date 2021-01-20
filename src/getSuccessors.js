@@ -1,43 +1,64 @@
 import { isCamp } from './core';
-/* eslint-disable no-plusplus */
-/* eslint-disable no-throw-literal */
 
 /**
  * Checks validity of row index
- * @param {Number} r the row index of a coordinate pair
- * @returns {boolean} whether the row index is within board bounds
+ *
+ * @function
+ * @param {Number} r The row index of a coordinate pair.
  * @see isValidRow
+ * @returns {boolean} Whether the row index is within board bounds.
  */
 
 export const isValidRow = (r) => r >= 0 && r < 12;
 
 /**
  * Checks validity of column index
- * @param {number} c the column index of a coordinate pair
- * @returns {boolean} whether the column index is within board bounds
+ *
+ * @function
+ * @param {number} c The column index of a coordinate pair.
  * @see isValidCol
+ * @returns {boolean} Whether the column index is within board bounds.
  */
 
 export const isValidCol = (c) => c >= 0 && c < 5;
 
 /**
- * Checks validity of coordinate pair as piece destination
- * @param {Object} board the Board object as defined in the backend Schema
- * @param {number} r the row index of the target coordinate pair
- * @param {number} c the column index of the target coordinate pair
- * @param {number} affiliation 0 for host, increments by 1 for additional players
- * @returns {boolean} whether the target destination is valid
- * @see isValidDestination
+ * The complete type of a game piece.
+ *
+ * @typedef {Object} Piece
+ * @property {string} name
+ * @property {number} affiliation
+ * @property {number} order
+ * @property {number} kills
  */
 
+/**
+ * The complete type of the game board. A 12 by 5 two dimensional array of Piece objects.
+ *
+ * @typedef {Piece[][]} Board
+ */
+
+/**
+ * Checks validity of coordinate pair as piece destination
+ *
+ * @function
+ * @param {Board} board The Board object as defined in the backend Schema.
+ * @param {number} r The row index of the target coordinate pair.
+ * @param {number} c The column index of the target coordinate pair.
+ * @param {number} affiliation 0 for host, increments by 1 for additional players.
+ * @see isValidDestination
+ * @returns {boolean} Whether the target destination is valid.
+ */
 export const isValidDestination = (board, r, c, affiliation) =>
     isValidRow(r) && isValidCol(c) && board[r][c].affiliation !== affiliation;
 
 /**
- * Checks whether the space is a railroad tile
- * @param {number} r the row of the target coordinate pair
- * @param {number} c the column of the target coordinate pair
- * @returns {boolean} whether the space is a railroad tile
+ * Checks whether the space is a railroad tile.
+ *
+ * @function
+ * @param {number} r The row of the target coordinate pair.
+ * @param {number} c The column of the target coordinate pair.
+ * @returns {boolean} Whether the space is a railroad tile.
  */
 
 export const isRailroad = (r, c) => {
@@ -51,16 +72,23 @@ export const isRailroad = (r, c) => {
 };
 
 /**
- * Gets a list of possible positions the piece at a given coordinate pair can travel to
- * @param {Object} board the Board object as defined in the backend Schema
- * @param {number} r the row of the source coordinate pair
- * @param {number} c the column of the source coordinate pair
- * @param {Array} adjList a list of lists representing the graph of duplex tile connections
- * @param {number} affiliation 0 for host, increments by 1 for additional players
- * @returns {Array} list of positions that the piece may travel to during its turn
- * @see getSuccessors
+ * The type of an adjacency list.
+ *
+ * @typedef {Map<string, string[]>} Adjlist
  */
 
+/**
+ * Gets a list of possible positions the piece at a given coordinate pair can travel to.
+ *
+ * @param {Board} board The Board object as defined in the backend Schema.
+ * @param {number} r The row of the source coordinate pair.
+ * @param {number} c The column of the source coordinate pair.
+ * @param {Adjlist} adjList A Map object representing the graph of duplex tile
+ *   connections.
+ * @param {number} affiliation 0 for host, increments by 1 for additional players.
+ * @see getSuccessors
+ * @returns {Array} List of positions that the piece may travel to during its turn.
+ */
 export function getSuccessors(board, adjList, r, c, affiliation) {
     // validate the board
     if (board.length !== 12) {
@@ -146,9 +174,14 @@ export function getSuccessors(board, adjList, r, c, affiliation) {
 }
 
 /**
- * Generates the adjacency list for a two player Luzhanqi game in the form of a javascript map
- * @returns {Map<String, String>} list of lists indicating duplex tile connections
+ * Generates the adjacency list for a two player Luzhanqi game in the form of a
+ * Map object. The generated Map uses the JSON.stringified versions of
+ * coordinate arrays because of the way javascript handles the comparison of arrays.
+ *
+ * @function
  * @see generateAdjList
+ * @returns {Map<string, string[]>} Keys are JSON.stringified coordinate array
+ *   keys and values are arrays of JSON.stringified coordinates.
  */
 export const generateAdjList = () => {
     // note that the coordinates are stored in a JSON format
@@ -207,11 +240,15 @@ export const generateAdjList = () => {
 };
 
 /**
+ * Returns a new board with the placed piece.
  *
- * @param {Object} board the Board object as defined in the backend Schema
- * @param {number} r the row of the target coordinate pair
- * @param {number} c the column of the target coordinate pair
- * @param {*} piece a Piece object as defined in Piece.js
+ * @function
+ * @param {Board} board The Board object as defined in the backend Schema.
+ * @param {number} r The row of the target coordinate pair.
+ * @param {number} c The column of the target coordinate pair.
+ * @param {any} piece A Piece object as defined in Piece.js.
+ * @see placePiece
+ * @returns {Board} A new board with the placed piece.
  */
 export const placePiece = (board, r, c, piece) => {
     if (!isValidRow(r) || !isValidCol(c)) {

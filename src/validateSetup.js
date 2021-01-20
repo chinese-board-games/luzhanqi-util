@@ -2,9 +2,24 @@ const { pieces } = require('./piece');
 const { isHQ, isCamp, iterBoard } = require('./core');
 
 /**
+ * The complete type of a game piece.
  *
- * @param {Piece[][]} halfBoard
- * @param {boolean} isBottomHalf
+ * @typedef {Object} Piece
+ * @property {string} name
+ * @property {number} affiliation
+ * @property {number} order
+ * @property {number} kills
+ */
+
+/**
+ * Validates that a set up half board of pieces follows all of the game rules.
+ * Used for the beginning of games.
+ *
+ * @function
+ * @param {Piece[][]} halfBoard A 6 by 5 two dimensional array of pieces.
+ * @param {boolean} isBottomHalf States if the half board the bottom or top half.
+ * @see validateSetup
+ * @returns {boolean} Whether the half board is valid or not.
  */
 export function validateSetup(halfBoard, isBottomHalf = true) {
     // flip the board of neccessary
