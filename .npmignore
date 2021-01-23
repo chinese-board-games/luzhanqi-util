@@ -1,0 +1,5 @@
+# Ignore github actions
+.github
+
+# Ignore jsdocs
+out/

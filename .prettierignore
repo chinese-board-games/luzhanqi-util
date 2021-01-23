@@ -6,3 +6,9 @@ jspm_packages/
 build
 coverage
 dist
+
+# Ignore github actions
+.github
+
+# Ignore jsdocs
+out/
