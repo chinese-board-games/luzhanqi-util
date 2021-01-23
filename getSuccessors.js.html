@@ -137,7 +137,9 @@ export const isValidCol = (c) => c >= 0 &amp;&amp; c &lt; 5;
  * @returns {boolean} Whether the target destination is valid.
  */
 export const isValidDestination = (board, r, c, affiliation) =>
-    isValidRow(r) &amp;&amp; isValidCol(c) &amp;&amp; board[r][c].affiliation !== affiliation;
+    isValidRow(r) &amp;&amp;
+    isValidCol(c) &amp;&amp;
+    (board[r][c] == null || board[r][c].affiliation !== affiliation);
 
 /**
  * Checks whether the space is a railroad tile.
