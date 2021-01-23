@@ -81,31 +81,33 @@ export const isRailroad = (r, c) => {
  * Gets a list of possible positions the piece at a given coordinate pair can travel to.
  *
  * @param {Board} board The Board object as defined in the backend Schema.
- * @param {number} r The row of the source coordinate pair.
- * @param {number} c The column of the source coordinate pair.
+ * @param {number} r The row index of the source coordinate pair.
+ * @param {number} c The column index of the source coordinate pair.
  * @param {Adjlist} adjList A Map object representing the graph of duplex tile
  *   connections.
  * @param {number} affiliation 0 for host, increments by 1 for additional players.
  * @see getSuccessors
+ * @throws Will throw an error if the board is not 12 by 5 and/or if the source
+ *   row/col is out of bounds.
  * @returns {Array} List of positions that the piece may travel to during its turn.
  */
 export function getSuccessors(board, adjList, r, c, affiliation) {
     // validate the board
     if (board.length !== 12) {
-        throw 'Invalid number of rows';
+        throw 'Invalid number of rows in board';
     }
 
     if (!board.every((row) => row.length === 5)) {
-        throw 'Invalid number of columns';
+        throw 'Invalid number of columns in board';
     }
 
     // validate from
     if (!isValidRow(r)) {
-        throw 'Invalid x';
+        throw 'Invalid source row index passed';
     }
 
     if (!isValidCol(c)) {
-        throw 'Invalid y';
+        throw 'Invalid source column index passed';
     }
 
     const piece = board[r][c];
